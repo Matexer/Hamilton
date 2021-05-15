@@ -29,23 +29,23 @@ def is_valid_cycle(cycle, graph_dict):
 
 
 if __name__ == "__main__":
-    NUM_OF_NODES = 20
+    NUM_OF_NODES = 160
     MIN_VERTEXES_PER_NODE = 2
-    MAX_VERTEXES_PER_NODE = 2
+    MAX_VERTEXES_PER_NODE = 10
     DIRECTED = False
 
     graph, graph_dict = GraphGenerator.get_graph(NUM_OF_NODES,
         MIN_VERTEXES_PER_NODE, MAX_VERTEXES_PER_NODE, directed=DIRECTED)
 
-    brute_algo = BruteForceAlgo(graph_dict)
-    cycle = brute_algo.find_cycle()
-    if cycle:
-        print(cycle)
+    # brute_algo = BruteForceAlgo(graph_dict)
+    # cycle = brute_algo.find_cycle()
+    # if cycle:
+    #     print(cycle)
 
-    genetic_algo = GeneticAlgo(graph_dict, num_of_seekers=10, max_replications=1000)
+    genetic_algo = GeneticAlgo(graph_dict, num_of_seekers=10, max_replications=10000)
     cycle = genetic_algo.find_cycle()
     print(f"Valid: {is_valid_cycle(cycle, graph_dict)}")
-    print(genetic_algo.diary)
+    print(genetic_algo.diary[-1])
     GraphPlot(graph, cycle)
 
     plt.draw()
