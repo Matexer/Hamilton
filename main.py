@@ -1,5 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt
+import time
 from hamilton import *
 
 
@@ -29,24 +30,40 @@ def is_valid_cycle(cycle, graph_dict):
 
 
 if __name__ == "__main__":
-    NUM_OF_NODES = 160
+    NUM_OF_NODES = 24
     MIN_VERTEXES_PER_NODE = 2
-    MAX_VERTEXES_PER_NODE = 10
+    MAX_VERTEXES_PER_NODE = 3
     DIRECTED = False
 
     graph, graph_dict = GraphGenerator.get_graph(NUM_OF_NODES,
         MIN_VERTEXES_PER_NODE, MAX_VERTEXES_PER_NODE, directed=DIRECTED)
 
-    # brute_algo = BruteForceAlgo(graph_dict)
-    # cycle = brute_algo.find_cycle()
-    # if cycle:
-    #     print(cycle)
+    brute_algo = BruteForceAlgo(graph_dict)
+
+    start = time.time()
+    cycle = brute_algo.find_cycle()
+    stop = time.time()
+    t = stop - start
+
+    if cycle:
+        print(f"Cykl znaleziony przez alg. zachłanny w {t} s")
+    else:
+        print(f"Brak cyklu potwierdzony przez alg. zachłanny w {t} s")
 
     genetic_algo = GeneticAlgo(graph_dict, num_of_seekers=10, max_replications=10000)
+
+    start = time.time()
     cycle = genetic_algo.find_cycle()
-    print(f"Valid: {is_valid_cycle(cycle, graph_dict)}")
-    print(genetic_algo.diary[-1])
-    GraphPlot(graph, cycle)
+    stop = time.time()
+    t = stop - start
+
+    if cycle:
+        print(f"Cykl znaleziony przez alg. genetyczny w {t} s w {genetic_algo.replication_number} generacji")
+    else:
+        print(f"Brak cyklu potwierdzony przez alg. genetyczny w {t} s")
+
+    if cycle:
+        GraphPlot(graph, cycle)
 
     plt.draw()
     plt.show()
