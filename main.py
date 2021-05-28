@@ -32,7 +32,7 @@ def is_valid_cycle(cycle, graph_dict):
 if __name__ == "__main__":
     NUM_OF_NODES = 24
     MIN_VERTEXES_PER_NODE = 2
-    MAX_VERTEXES_PER_NODE = 3
+    MAX_VERTEXES_PER_NODE = 2
     DIRECTED = False
 
     graph, graph_dict = GraphGenerator.get_graph(NUM_OF_NODES,
@@ -50,7 +50,7 @@ if __name__ == "__main__":
     else:
         print(f"Brak cyklu potwierdzony przez alg. zachłanny w {t} s")
 
-    genetic_algo = GeneticAlgo(graph_dict, num_of_seekers=10, max_replications=10000)
+    genetic_algo = GeneticAlgo(graph_dict, num_of_seekers=10, max_replications=1000)
 
     start = time.time()
     cycle = genetic_algo.find_cycle()
@@ -58,12 +58,11 @@ if __name__ == "__main__":
     t = stop - start
 
     if cycle:
-        print(f"Cykl znaleziony przez alg. genetyczny w {t} s w {genetic_algo.replication_number} generacji")
+        print(f"Cykl znaleziony przez alg. genetyczny w {t}s w {genetic_algo.replication_number} generacji")
     else:
-        print(f"Brak cyklu potwierdzony przez alg. genetyczny w {t} s")
+        print(f"Brak cyklu potwierdzony przez alg. genetyczny w {t}s")
 
-    if cycle:
-        GraphPlot(graph, cycle)
+    GraphPlot(graph, cycle)
 
     plt.draw()
     plt.show()

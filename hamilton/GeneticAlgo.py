@@ -117,4 +117,5 @@ class GeneticAlgo:
                 old_way.append(random.choice(tuple(unvisited_alternatives)))
                 way = old_way
                 return GeneticAlgo.Seeker(way, ancestor_way, self.graph_dict)
+
             return False
