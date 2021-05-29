@@ -16,12 +16,12 @@ class TestCase(NamedTuple):
 
 def measure(func):
     tracemalloc.start()
-    start = time.time()
+    start = time.time_ns()
     result = func()
     _, pike = tracemalloc.get_traced_memory()
-    stop = time.time()
+    stop = time.time_ns()
     tracemalloc.stop()
-    t = stop - start
+    t = (stop - start) / 1000_000
     return t, pike, result
 
 
@@ -40,6 +40,7 @@ def save_graph_as_png(graph, result, n):
     GraphPlot(graph, result)
     plt.draw()
     plt.savefig(f"output/{n}n_graph.png", format="PNG")
+    plt.close()
 
 
 def test_case(case: TestCase, attempts=10):
@@ -71,12 +72,12 @@ def test_case(case: TestCase, attempts=10):
 
 if __name__ == "__main__":
     csvfile = open('output/output.csv', 'w', newline='')
-    csv_writer = csv.writer(csvfile, delimiter=' ',
+    csv_writer = csv.writer(csvfile, delimiter='\t',
         quotechar='|', quoting=csv.QUOTE_MINIMAL)
-    header = "n", "Próba", "AG t", "AG wynik", "AG MP", "AG LO", "AG gen", "AD t", "AD wynik", "AD MP"
+    header = "n", "Próba", "AG czas [ms]", "AG MP [kB]", "AG wynik", "AD czas [ms]", "AD MP [kB]", "AD wynik"
     csv_writer.writerow(header)
 
-    cases = (13, 2, 2, False), (16, 2, 5, True), #(23, 4, 6, True), (24, 2, 4, False)
+    cases = (13, 2, 2, False), (16, 2, 3, True), #(23, 4, 6, True), (24, 2, 4, False)
     test_cases = []
     for case in cases:
         test_cases.append(TestCase(*case))
