@@ -51,7 +51,7 @@ def test_case(case: TestCase, attempts=10):
 
     for attempt in range(1, attempts+1):
         row = [case.nodes, attempt]
-        genetic_algo = GeneticAlgo(graph_dict)
+        genetic_algo = GeneticAlgo(graph_dict, num_of_seekers=10, max_replications=case.nodes*100)
         result = manage_test(genetic_algo, row)
         if result and not graph_drew:
             save_graph_as_png(graph, result, case.nodes)
@@ -77,7 +77,10 @@ if __name__ == "__main__":
     header = "n", "Próba", "AG czas [ms]", "AG MP [kB]", "AG wynik", "AD czas [ms]", "AD MP [kB]", "AD wynik"
     csv_writer.writerow(header)
 
-    cases = (13, 2, 2, False), (16, 2, 3, True), #(23, 4, 6, True), (24, 2, 4, False)
+    cases = (13, 2, 2, False), (16, 2, 5, True), (23, 2, 4, False),\
+            (24, 2, 6, True), (54, 2, 6, False), (70, 2, 5, False), \
+            (73, 3, 6, False), (90, 3, 6, False), (100, 3, 8, False)
+
     test_cases = []
     for case in cases:
         test_cases.append(TestCase(*case))
