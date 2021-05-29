@@ -65,4 +65,5 @@ if __name__ == "__main__":
     GraphPlot(graph, cycle)
 
     plt.draw()
+    # plt.savefig("Graph.png", format="PNG")
     plt.show()
